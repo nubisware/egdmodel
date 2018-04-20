@@ -68,11 +68,14 @@ class EGDExchange():
 		self.lasttimestamp = None
 		self.lastmessage = None
 
-	def addTagFromAddressParts(self, tagtype, offsetbyte, offsetbit):
-		tag = EGDTag('', '', tagtype, self.exchangenumber, offsetbyte, offsetbit, '')
+	def addNewTag(self, id, name, tagtype, offsetbyte, offsetbit, description=''):
+		tag = EGDTag(id, name, tagtype, self.exchangenumber, offsetbyte, offsetbit, description)
 		self.tags.append(tag)
 		return tag
-		
+
+	def addTagFromAddressParts(self, tagtype, offsetbyte, offsetbit):
+		return self.addNewTag('', '', tagtype, self.exchangenumber, offsetbyte, offsetbit)
+
 	def addTag(self, tag):
 		self.tags.append(tag)
 		return tag
@@ -246,4 +249,3 @@ class EGDMessage(object):
         return egdmessage
 
 EGD_DATAGRAM_LEN = EGDHeader.HEADER_LEN + EGDPayload.MAX_PAYLOAD_DATA_LEN
-
