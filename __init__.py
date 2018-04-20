@@ -186,7 +186,11 @@ class EGDHeader():
 	@classmethod
 	def newHeaderFor(cls, producerid, exchangeid, count):
 		tm = time.time()
-		timestampsecs = long(tm)
+		timestampsecs = int(tm)
+                try:
+                        timestampsecs = long(tm)
+                except:
+                        pass
 		timestampnanosecs = (round((tm - timestampsecs) * 10e8))
 		return cls(struct.pack(EGDHeader.codec, 1, 13, count % 65535, int(producerid), int(exchangeid), timestampsecs,
 		                     timestampnanosecs, 0, 0, 0, 0, 0))
