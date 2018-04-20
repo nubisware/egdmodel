@@ -6,6 +6,7 @@ import datetime
 import time
 
 UDP_DATA_PORT = 0x4746
+# Note: port number is the hex ascii codes of 'G' and 'F' letters, they are the initials of "G.E. - Fanuc", creators of the standard.
 
 class EGDTag():
 
@@ -15,7 +16,8 @@ class EGDTag():
 		"INT"  :(2, "h"),
 		"UDINT":(4, "L"),
 		"UINT" :(2, "H"),
-		"BOOL" :(1, 'B')
+		"BOOL" :(1, 'B'),
+		"LREAL" :(8, 'd')
 	}
 
 	def __init__(self, id, name, type, exchangenumber, offsetbyte, offsetbit, description):
