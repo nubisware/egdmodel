@@ -74,7 +74,7 @@ class EGDExchange():
 		return tag
 
 	def addTagFromAddressParts(self, tagtype, offsetbyte, offsetbit):
-		return self.addNewTag('', '', tagtype, self.exchangenumber, offsetbyte, offsetbit)
+		return self.addNewTag('', '', tagtype, offsetbyte, offsetbit)
 
 	def addTag(self, tag):
 		self.tags.append(tag)
