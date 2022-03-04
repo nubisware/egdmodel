@@ -30,6 +30,7 @@ class EGDTag():
 		self.description = description
 		self.dataindex = None
 		self.lastvalue = None
+		self.prevvalue = None
 
 	@classmethod
 	def fromAddress(cls, address, type):
@@ -46,6 +47,7 @@ class EGDTag():
 		return EGDTag.TYPE_MAP[self.type][0]
 
 	def evaluateValue(self, egdpayload):
+		self.prevvalue = self.lastvalue
 		self.lastvalue = egdpayload.data[self.dataindex]
 		if self.type is 'BOOL':
 			self.lastvalue =  ((self.lastvalue >> self.offsetbit) & 1) == 1
@@ -192,10 +194,10 @@ class EGDHeader():
 	def newHeaderFor(cls, producerid, exchangeid, count):
 		tm = time.time()
 		timestampsecs = int(tm)
-                try:
-                        timestampsecs = long(tm)
-                except:
-                        pass
+		try:
+			timestampsecs = long(tm)
+		except:
+			pass
 		timestampnanosecs = (round((tm - timestampsecs) * 10e8))
 		return cls(struct.pack(EGDHeader.codec, 1, 13, count % 65535, int(producerid), int(exchangeid), timestampsecs,
 		                     timestampnanosecs, 0, 0, 0, 0, 0))
@@ -217,7 +219,6 @@ class EGDMessage(object):
         self.exchange = exchange
         self.header = None
         self.payload = None
-        self.immediatetags = []
 
     @classmethod
     def fromDatagramData(cls, egdconfiguration, datagramdata):
